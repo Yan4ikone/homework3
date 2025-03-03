@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="API">
+    <test name ="registerUser" >
+        <parameter name="email" value="eve.holt@reqres.in"/>
+        <parameter name="password" value="pistol"/>
+        <parameter name="email" value="fave08@mail.com"/>
+        <parameter name="password" value="123098"/>
+    </test>
+</suite>
