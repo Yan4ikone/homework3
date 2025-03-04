@@ -1,21 +1,38 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ResourceDto {
 
+    @JsonProperty("page")
     private String page;
+
+    @JsonProperty("per_page")
     private String per_page;
+
+    @JsonProperty("total")
     private String total;
+
+    @JsonProperty("total_pages")
     private String total_pages;
+
+    @JsonProperty("data")
     private List<UserDto> data;
+
+    @JsonProperty("support")
     private SupportDto support;
 
     public ResourceDto() {
         super();
     }
 
-    public ResourceDto(String page, String per_page, String total, String total_pages, List<UserDto> data, SupportDto support) {
+    public ResourceDto(String page, String per_page, String total,
+                       String total_pages, List<UserDto> data,
+                       SupportDto support) {
         this.page = page;
         this.per_page = per_page;
         this.total = total;

@@ -26,7 +26,7 @@ public class Specifications {
 
     public static RequestSpecification requestSpec() {
         return new RequestSpecBuilder()
-                .setBaseUri("https://reqres.in")
+                .setBaseUri("https://reqres.in/")
                 .setContentType("application/json")
                 .build();
     }

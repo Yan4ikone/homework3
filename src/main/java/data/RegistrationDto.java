@@ -1,9 +1,14 @@
 package data;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RegistrationDto {
 
+    @JsonProperty("email")
     private String email;
+    @JsonProperty("password")
     private String password;
 
     public RegistrationDto(String email, String password) {
