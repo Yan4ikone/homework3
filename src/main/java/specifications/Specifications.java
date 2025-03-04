@@ -1,9 +1,7 @@
 package specifications;
 
 import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 public class Specifications {
@@ -20,30 +18,14 @@ public class Specifications {
                 .build();
     }
 
-    public static void installSpec(ResponseSpecification responseSpecification) {
-        RestAssured.responseSpecification = responseSpecification;
-    }
-
-    public static RequestSpecification requestSpec() {
-        return new RequestSpecBuilder()
-                .setBaseUri("https://reqres.in/")
-                .setContentType("application/json")
+    public static ResponseSpecification responseSpec400() {
+        return new ResponseSpecBuilder()
+                .expectStatusCode(400)
                 .build();
     }
 
-    public static void installSpec(RequestSpecification requestSpecification) {
-        RestAssured.requestSpecification = requestSpecification;
-    }
-
-    public static void installSpec(RequestSpecification requestSpecification,
-                                   ResponseSpecification responseSpecification) {
-        RestAssured.requestSpecification = requestSpecification;
+    public static void installSpec(ResponseSpecification responseSpecification) {
         RestAssured.responseSpecification = responseSpecification;
-    }
-
-    public static void deleteSpec() {
-        RestAssured.requestSpecification = null;
-        RestAssured.responseSpecification = null;
     }
 }
 

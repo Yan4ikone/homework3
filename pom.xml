@@ -11,6 +11,7 @@
         <rest-assured.version>3.1.1</rest-assured.version>
         <jackson-databind.version>2.9.7</jackson-databind.version>
         <allure-testing.version>2.13.2</allure-testing.version>
+        <maven-compiler.version>3.13.0</maven-compiler.version>
     </properties>
     <dependencies>
         <!--  https://mvnrepository.com/artifact/org.testng/testng  -->
@@ -54,7 +55,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>${maven-compiler.version}</version>
                 <configuration>
                     <source>21</source>
                     <target>21</target>
