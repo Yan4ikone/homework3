@@ -2,8 +2,7 @@ package in.reqres;
 
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.*;
 
 public class BaseTest {
 

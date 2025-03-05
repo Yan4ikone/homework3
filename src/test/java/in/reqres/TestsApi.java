@@ -55,10 +55,11 @@ public class TestsApi extends BaseTest {
         LoginDto loginDto = new LoginDto(email, password);
         installSpec(responseSpec200());
         LoginResponseDto loginResponseDto = given()
+                .body(loginDto)
                 .when()
                 .post("api/login")
                 .then()
-                .body("token", notNullValue()) // проверка body на не нулевое значение
+                .body("token", notNullValue()) // проверка token на не нулевое значение
                 .spec(responseSpec200())
                 .extract().body().as(LoginResponseDto.class);
         Assertions.assertRegistrationSuccess(loginResponseDto);
@@ -75,10 +76,12 @@ public class TestsApi extends BaseTest {
         installSpec(responseSpec400());
         LoginDto loginDto = new LoginDto(email, password);
         given()
+                .body(loginDto)
                 .when()
                 .post("api/login")
                 .then()
                 .spec(responseSpec400())
+                .body(notNullValue())
                 .extract().response();
         Assertions.assertRegistrationCorrect(email, password, loginDto);
         Assertions.assertRegistrationFailure(loginDto);
@@ -95,8 +98,8 @@ public class TestsApi extends BaseTest {
                 .when()
                 .get("api/unknown")
                 .then()
-                .log().body()
                 .spec(responseSpec200())
+                .body(notNullValue())
                 .extract().body().as(ListDto.class);
         List<Integer> years = new ArrayList<>(response.getData()
                 .stream()
@@ -116,8 +119,8 @@ public class TestsApi extends BaseTest {
                 .when()
                 .get("https://gateway.autodns.com/")
                 .then()
-                .log().body()
                 .spec(responseSpec200())
+                .body(notNullValue())
                 .extract().response();
         String responseBody = response.asString();
         Pattern pattern = Pattern.compile("<(\\?*)(\\w+)(\\s|>)");
