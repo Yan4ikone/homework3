@@ -4,19 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RegistrationDto {
+public class LoginDto {
 
     @JsonProperty("email")
     private String email;
+
     @JsonProperty("password")
     private String password;
 
-    public RegistrationDto(String email, String password) {
+    public LoginDto(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public RegistrationDto() {
+    public LoginDto() {
         super();
     }
 

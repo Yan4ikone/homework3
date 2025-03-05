@@ -4,7 +4,6 @@ import data.*;
 import helpers.Assertions;
 import helpers.DataProviders;
 import io.restassured.response.Response;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static in.reqres.BaseTest.requestSpec;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.notNullValue;
 import static specifications.Specifications.*;
@@ -23,7 +21,7 @@ import static specifications.Specifications.*;
  * Тесты для проверки функционала работы с API.
  * @author Yan
  */
-public class TestsApi {
+public class TestsApi extends BaseTest {
 
     /**
      * Проверяется, что имена файлов аватаров пользователей уникальны.
@@ -32,11 +30,9 @@ public class TestsApi {
     public void testOne() {
         installSpec(responseSpec200());
         UserResponseDto userRes = given()
-                .spec(requestSpec())
                 .when()
                 .get("api/users?page=2")
                 .then()
-                .log().body()
                 .body("page", notNullValue()) // проверка body на не нулевое значение
                 .spec(responseSpec200()) // проверка получения ожидаемого status code
                 .extract().body().as(UserResponseDto.class);
@@ -55,19 +51,18 @@ public class TestsApi {
      * @param password Пароль пользователя.
      */
     @Test(dataProvider = "successLoginData", dataProviderClass = DataProviders.class)
-    @Parameters({"email", "password"})
     public void loginUser(String email, String password) {
+        LoginDto loginDto = new LoginDto(email, password);
         installSpec(responseSpec200());
-        RegistrationResponseDto registrationResponseDto = given()
-                .spec(requestSpec())
+        LoginResponseDto loginResponseDto = given()
                 .when()
                 .post("api/login")
                 .then()
-                .log().all()
-                .body("page", notNullValue()) // проверка body на не нулевое значение
+                .body("token", notNullValue()) // проверка body на не нулевое значение
                 .spec(responseSpec200())
-                .extract().body().as(RegistrationResponseDto.class);
-        Assertions.assertRegistrationSuccess(registrationResponseDto);
+                .extract().body().as(LoginResponseDto.class);
+        Assertions.assertRegistrationSuccess(loginResponseDto);
+        Assertions.assertRegistrationCorrect(email, password, loginDto);
     }
 
     /**
@@ -76,19 +71,17 @@ public class TestsApi {
      * @param password Пароль пользователя.
      */
     @Test(dataProvider = "failureLoginData", dataProviderClass = DataProviders.class)
-    @Parameters({"email", "password"})
     public void loginFailureUser(String email, String password) {
         installSpec(responseSpec400());
-        RegistrationDto registrationDto = new RegistrationDto(email, password);
+        LoginDto loginDto = new LoginDto(email, password);
         given()
-                .spec(requestSpec())
                 .when()
                 .post("api/login")
                 .then()
-                .log().body()
                 .spec(responseSpec400())
                 .extract().response();
-        Assertions.assertRegistrationFailure(registrationDto);
+        Assertions.assertRegistrationCorrect(email, password, loginDto);
+        Assertions.assertRegistrationFailure(loginDto);
     }
 
     /**
@@ -99,7 +92,6 @@ public class TestsApi {
     public void testOnAYear() {
         installSpec(responseSpec200());
         ListDto response = given()
-                .spec(requestSpec())
                 .when()
                 .get("api/unknown")
                 .then()
